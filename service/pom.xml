@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+  	 <groupId>cn.com.cninfo</groupId> 
+ 	 <artifactId>parent</artifactId>
+ 	 <version>0.0.1-SNAPSHOT</version>
+ 	 <relativePath>../parent/pom.xml</relativePath>
+  </parent>
+  
+  <artifactId>service</artifactId>
+  <name>service</name>
+
+  <properties>
+  	<profile.dir>src/main/profiles</profile.dir>
+  	<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+  </properties>
+
+  <dependencies>
+  	
+  	<!-- 引用 公共接口-->
+   	<dependency>
+   		<groupId>cn.com.cninfo</groupId> 
+ 		<artifactId>remoteapi</artifactId>
+   		<version>${remote.api.version}</version>
+   	</dependency>
+   	
+   	<!-- dubbo包 -->
+   	<dependency>
+   		<groupId>com.alibaba</groupId>
+   		<artifactId>dubbo</artifactId>
+   		<version>${dubbo.version}</version>
+   	</dependency>
+   	
+   	<!-- zookeeper包 -->
+   	<dependency>
+	    <groupId>org.apache.zookeeper</groupId>
+	    <artifactId>zookeeper</artifactId>
+	    <version>${zookeeper.version}</version>
+    </dependency>
+   	<dependency>
+   		<groupId>com.101tec</groupId>
+   		<artifactId>zkclient</artifactId>
+   		<version>${zkclient.version}</version>
+   	</dependency>
+   	
+   	<!-- 日志组件包，logback -->
+   	<dependency>
+	    <groupId>ch.qos.logback</groupId>
+	    <artifactId>logback-core</artifactId>
+	    <version>${logback.version}</version>
+	</dependency>
+   	
+   	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>${slf4j.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>log4j-over-slf4j</artifactId>
+	    <version>${slf4j.version}</version>
+	</dependency>
+   	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>jcl-over-slf4j</artifactId>
+	    <version>${slf4j.version}</version>
+	</dependency>
+   	
+   	<!-- commons公共组件 -->
+   	<dependency>
+	    <groupId>commons-beanutils</groupId>
+	    <artifactId>commons-beanutils</artifactId>
+	    <version>${commons.beanutils.version}</version>
+	</dependency>
+   	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	    <version>${commons.lang3.version}</version>
+	</dependency>
+   	 
+   	<!-- netty --> 
+   	<dependency>
+	    <groupId>io.netty</groupId>
+	    <artifactId>netty-all</artifactId>
+	    <version>${netty.verison}</version>
+	</dependency>
+   	
+   	<!-- 动态编译依赖包 -->
+   	<dependency>
+	    <groupId>org.javassist</groupId>
+	    <artifactId>javassist</artifactId>
+	    <version>${javassit.version}</version>
+	</dependency>
+   	
+   	<!-- spring依赖jar包 -->
+   	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-beans</artifactId>
+	    <version>4.3.8.RELEASE</version>
+	</dependency>
+
+   	<dependency>
+   		<groupId>org.springframework</groupId>
+   		<artifactId>spring-context-support</artifactId>
+   		<version>${spring.version}</version>
+   	</dependency>
+   	<dependency><!-- aop -->
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-aop</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+   	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-aspects</artifactId>
+	    <version>${spring.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjweaver</artifactId>
+	    <version>${aspectj.version}</version>
+	</dependency>
+  </dependencies> 
+
+  <!-- 指定不同环境下的配置文件 -->
+  <profiles>
+  	<profile>
+  		<id>dev</id>
+  		<properties>
+  			<profile.dir>${profiles.dir}/dev</profile.dir>
+  		</properties>
+  		<activation>
+  			<activeByDefault>true</activeByDefault>
+  		</activation>
+  	</profile>
+  	<profile>
+  		<id>beta</id>
+  		<properties>
+  			<profile.dir>${profiles.dir}/beta</profile.dir>
+  		</properties>
+  		<activation>
+  			<activeByDefault>false</activeByDefault>
+  		</activation>
+  	</profile>
+  	<profile>
+  		<id>product</id>
+  		<properties>
+  			<profile.dir>${profiles.dir}/product</profile.dir>
+  		</properties>
+  		<activation>
+  			<activeByDefault>false</activeByDefault>
+  		</activation>
+  	</profile>
+  </profiles>
+
+  <build>
+  	<finalName>service</finalName>
+  	<!-- 指定资源路径，可设置过滤 -->
+  	<resources>
+  		<resource>
+  			<directory>src/main/resources</directory>
+  			<filtering>true</filtering><!-- 该目录下的资源全部输出 -->
+  		</resource>
+  		<resource>
+  			<directory>${profile.dir}</directory>
+  			<filtering>true</filtering><!-- 该目录下的资源全部输出 -->
+  		</resource>
+  	</resources>
+  	
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-jar-plugin</artifactId>
+  			<!-- <version>${maven.jar.plugin.version}</version> -->
+  			<configuration>
+  				<encoding>${project.build.sourceEncoding}</encoding>
+  			</configuration>
+  		</plugin>
+  	</plugins>
+  	
+  </build>
+</project>
